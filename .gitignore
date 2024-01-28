@@ -34,3 +34,6 @@ build/
 
 ### application config ###
 application.yml
+
+### docker ###
+/docker/
