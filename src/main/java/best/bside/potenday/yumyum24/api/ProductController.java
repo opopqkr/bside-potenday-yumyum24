@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping(value = "/product")
 public class ProductController {
 
-    // FIXME Service Layer 옮길 예정
+    // FIXME Service Layer 옮길 예정, service layer 가 필요한지 확인 필요
     private final ProductRepository productRepository;
 
     @Operation(summary = "상품 목록 조회", description = "상품 목록 조회 API.")
