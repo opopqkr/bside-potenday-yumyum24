@@ -11,7 +11,7 @@
 ## ⚙️ Tech Stack
 
 - 언어 
-    - java
+    - Java
 
 - 프레임워크   
     - Spring Boot
