@@ -19,6 +19,8 @@
 - Git Action
 - NCP(Naver Cloud Platform)
 
+---
+
 ## 🔗 백엔드 시스템 구성도
 ![image](https://github.com/jjunhyeon/algorithm/assets/37209763/d8709201-8fe4-43c1-960d-d3fb6e4e085a)
 
