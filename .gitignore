@@ -32,8 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
-### resources dir 제외 ###
-!/src/main/resources
+
+### .keep ###
+!src/main/resources/.keep
 
 ### application config ###
 application.yml
