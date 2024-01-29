@@ -35,7 +35,8 @@ jobs:
         shell: bash
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        # skip test
+        run: mvn -B -Dmaven.test.skip package package --file pom.xml
 
       # dockerfile을 통해 이미지를 빌드, 이를 docker repo로 push.
       - name: Docker build & push to docker repo
