@@ -1,5 +1,5 @@
 
-# yumyum24 - 백엔드 레파지토리
+# 🍧 yumyum24 - 백엔드 레파지토리
 
 ![image](https://github.com/jjunhyeon/algorithm/assets/37209763/2e4bc5b3-bd7d-42c8-b1cc-9c0e21fd3ac2)
 
@@ -9,20 +9,37 @@
 ---
  
 ## ⚙️ Tech Stack
-- Java
-- Spring Boot
-- JPA
-- Maven
-- Query DSL
-- Docker
-- Mariadb
-- Git Action
-- NCP(Naver Cloud Platform)
+
+- 언어 
+    - java
+
+- 프레임워크   
+    - Spring Boot
+    - JPA(Java Persistence API)
+    - QueryDSL
+
+- 빌드 및 의존성 관리
+    - Maven
+
+- 데이터베이스
+    - MariaDB
+
+- 컨테이너화
+    - Docker
+
+- 클라우드 플랫폼
+    - NCP(Naver Cloud Platform)
+
+- 버전 관리
+    - Git
+
+- CI / CD
+    - GitHub Actions
 
 ---
 
-## 🔗 백엔드 시스템 구성도
-![image](https://github.com/jjunhyeon/algorithm/assets/37209763/d8709201-8fe4-43c1-960d-d3fb6e4e085a)
+## 🔗 CI / CD 구성도
+- 추가 예정
 
 ---
 
