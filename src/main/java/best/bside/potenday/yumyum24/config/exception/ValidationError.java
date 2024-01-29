@@ -1,14 +1,14 @@
 package best.bside.potenday.yumyum24.config.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.validation.FieldError;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiValidationError {
+public class ValidationError {
 
     private String object;
 
@@ -18,10 +18,10 @@ public class ApiValidationError {
 
     private String message;
 
-    public ApiValidationError(FieldError error) {
+    public ValidationError(FieldError error) {
         this.object = error.getObjectName();
         this.field = error.getField();
-        this.message = error.getDefaultMessage();
         this.rejectedValue = error.getRejectedValue();
+        this.message = error.getDefaultMessage();
     }
 }
