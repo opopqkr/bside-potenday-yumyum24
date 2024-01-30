@@ -1,18 +1,26 @@
 package best.bside.potenday.yumyum24.config;
 
+import best.bside.potenday.yumyum24.config.jwt.JwtAuthenticationFilter;
+import best.bside.potenday.yumyum24.config.jwt.JwtProvider;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Slf4j
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final JwtProvider jwtProvider;
 
     private final static String[] ENDPOINTS_WHITELIST = {
             /* swagger v2 */
@@ -28,23 +36,39 @@ public class SecurityConfig {
             "/swagger-ui/**",
 
             // FIXME 임시 테스트용
-            "/product/**"
+            "/product/**",
+            "/login/**"
     };
 
+    // FIXME logout 추가
     /**
      * Security config <br>
-     * FIXME 로그인 기능 없을 시 제거
      *
      * @param http - httpSecurity
      * @return SecurityFilterChain
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeRequests(authorize -> authorize
-                        .antMatchers(ENDPOINTS_WHITELIST).permitAll()
-                        .anyRequest().authenticated())
+        return http
+                .httpBasic().disable()
+                .csrf().disable()
+                .cors().disable()
+                // Spring Security 세션 정책 : 세션을 생성 및 사용하지 않음
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests(authorize ->
+                        authorize
+                                .antMatchers(ENDPOINTS_WHITELIST).permitAll()
+                                .mvcMatchers("/test/*").authenticated())
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .mvcMatchers()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
+
 }
