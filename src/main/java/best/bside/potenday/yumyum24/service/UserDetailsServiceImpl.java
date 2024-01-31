@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -25,7 +25,7 @@ public class UserService implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(
                 user.getName(),
-                String.valueOf(user.getId())
-                , List.of(new SimpleGrantedAuthority("ROLE_USER")));
+                null,
+                List.of(new SimpleGrantedAuthority("ROLE_USER")));
     }
 }

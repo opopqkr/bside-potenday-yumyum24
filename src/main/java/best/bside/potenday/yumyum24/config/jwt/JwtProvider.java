@@ -1,6 +1,6 @@
 package best.bside.potenday.yumyum24.config.jwt;
 
-import best.bside.potenday.yumyum24.service.UserService;
+import best.bside.potenday.yumyum24.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -30,7 +30,7 @@ public class JwtProvider {
 
     private Key secretKey;
 
-    private final UserService userService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @PostConstruct
     protected void init() {
@@ -74,7 +74,7 @@ public class JwtProvider {
                 .getBody()
                 .getSubject();
 
-        UserDetails userDetails = userService.loadUserByUsername(account);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(account);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
