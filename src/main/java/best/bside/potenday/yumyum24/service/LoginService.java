@@ -6,7 +6,9 @@ import best.bside.potenday.yumyum24.payload.requests.LoginRequest;
 import best.bside.potenday.yumyum24.payload.responses.LoginResponse;
 import best.bside.potenday.yumyum24.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,17 +18,19 @@ public class LoginService {
 
     private final JwtProvider jwtProvider;
 
+    @Transactional
     public LoginResponse login(LoginRequest loginRequest) {
         User user = userRepository.findByEmail(loginRequest.getEmail());
 
-        // FIXME 수정 필요,
         // 없는 사용자일 경우 save.
         if (user == null) {
-            userRepository.save(loginRequest.toEntity());
-        } else if (!user.getPicture().equals(loginRequest.getPicture())) {
-            // 이미지 정보 변경 시 update.
-            user.setPicture(loginRequest.getPicture());
+            user = loginRequest.toEntity();
             userRepository.save(user);
+        } else {
+            if (StringUtils.isNotBlank(user.getPicture()) || StringUtils.equals(user.getPicture(), loginRequest.getPicture())) {
+                user.setPicture(loginRequest.getPicture());
+                userRepository.save(user);
+            }
         }
 
         return LoginResponse.builder()
