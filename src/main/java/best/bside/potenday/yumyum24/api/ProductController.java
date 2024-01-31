@@ -1,6 +1,7 @@
 package best.bside.potenday.yumyum24.api;
 
 import best.bside.potenday.yumyum24.domain.Product;
+import best.bside.potenday.yumyum24.payload.Response;
 import best.bside.potenday.yumyum24.payload.requests.NewProduct;
 import best.bside.potenday.yumyum24.repository.ProductRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,45 +25,45 @@ public class ProductController {
 
     @Operation(summary = "상품 목록 조회", description = "상품 목록 조회 API.")
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts() {
+    public ResponseEntity<Response<List<Product>>> getProducts() {
         final List<Product> list = productRepository.findAll();
 
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(new Response<>(HttpStatus.OK, list));
     }
 
     @Operation(summary = "상품 상세 조회", description = "상품 상세 조회 API.")
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@RequestParam long id) {
+    public ResponseEntity<Response<Product>> getProduct(@RequestParam long id) {
         final Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ValidationException("해당 상품을 찾을 수 없습니다."));
 
-        return ResponseEntity.ok().body(product);
+        return ResponseEntity.ok().body(new Response<>(HttpStatus.OK, product));
     }
 
     @Operation(summary = "상품 수정", description = "상품 수정 API.")
     @Transactional
     @PutMapping
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body(productRepository.save(product));
+    public ResponseEntity<Response<Product>> updateProduct(@RequestBody Product product) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new Response<>(HttpStatus.OK, productRepository.save(product)));
     }
 
     @Operation(summary = "상품 저장", description = "상품 저장 API.")
     @Transactional
     @PostMapping
-    public ResponseEntity<Product> saveProduct(@Valid @RequestBody NewProduct newProduct) {
+    public ResponseEntity<Response<Product>> saveProduct(@Valid @RequestBody NewProduct newProduct) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(productRepository.save(newProduct.toEntity()));
+                .body(new Response<>(HttpStatus.CREATED, productRepository.save(newProduct.toEntity())));
     }
 
     @Operation(summary = "상품 삭제", description = "상품 삭제 API.")
     @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@RequestParam long id) {
+    public ResponseEntity<Response<Void>> deleteProduct(@RequestParam long id) {
         final Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ValidationException("해당 상품을 찾을 수 없습니다."));
 
         productRepository.deleteById(product.getId());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK));
     }
 }
