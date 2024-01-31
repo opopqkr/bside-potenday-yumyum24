@@ -1,5 +1,7 @@
 package best.bside.potenday.yumyum24.config;
 
+import best.bside.potenday.yumyum24.config.jwt.JwtAccessDeniedHandler;
+import best.bside.potenday.yumyum24.config.jwt.JwtAuthenticationEntryPoint;
 import best.bside.potenday.yumyum24.config.jwt.JwtAuthenticationFilter;
 import best.bside.potenday.yumyum24.config.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +67,10 @@ public class SecurityConfig {
                         authorize
                                 .antMatchers(ENDPOINTS_WHITELIST).permitAll()
                                 .mvcMatchers("/test/*").authenticated())
+                .exceptionHandling()
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                .accessDeniedHandler(new JwtAccessDeniedHandler())
+                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
