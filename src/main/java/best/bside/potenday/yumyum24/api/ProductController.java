@@ -63,7 +63,7 @@ public class ProductController {
         final Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ValidationException("해당 상품을 찾을 수 없습니다."));
 
-        productRepository.deleteById(product.getId());
+        productRepository.deleteById(product.getProductId());
         return ResponseEntity.ok(new Response<>(HttpStatus.OK));
     }
 }
