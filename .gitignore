@@ -32,7 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-
 ### .keep ###
 !src/main/resources/.keep
 
