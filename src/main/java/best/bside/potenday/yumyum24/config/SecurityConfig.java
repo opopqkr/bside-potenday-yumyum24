@@ -6,6 +6,7 @@ import best.bside.potenday.yumyum24.config.jwt.JwtAuthenticationFilter;
 import best.bside.potenday.yumyum24.config.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,6 +25,12 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${cors.allow-origin.dev}")
+    private String allowOriginDev;
+
+    @Value("${cors.allow-origin.prod}")
+    private String allowOriginProd;
 
     private final JwtProvider jwtProvider;
 
@@ -78,8 +85,8 @@ public class SecurityConfig {
     private CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "https://tastelab.vercel.app/"));
+                allowOriginDev,
+                allowOriginProd));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
