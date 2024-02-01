@@ -7,14 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class LoginResponse {
+public class Profile {
 
     private String name;
 
     private String email;
 
     private String picture;
-
-    private String token;
 
 }

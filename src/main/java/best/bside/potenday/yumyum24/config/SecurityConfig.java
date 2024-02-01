@@ -49,7 +49,7 @@ public class SecurityConfig {
 
             // FIXME 임시 테스트용
             "/product/**",
-            "/login/**"
+            "/user/login"
     };
 
     // FIXME logout 추가
@@ -73,7 +73,7 @@ public class SecurityConfig {
                 .authorizeRequests(authorize ->
                         authorize
                                 .antMatchers(ENDPOINTS_WHITELIST).permitAll()
-                                .mvcMatchers("/test/*").authenticated())
+                                .mvcMatchers("/test/*", "/user/profile").authenticated())
                 .exceptionHandling()
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 .accessDeniedHandler(new JwtAccessDeniedHandler())

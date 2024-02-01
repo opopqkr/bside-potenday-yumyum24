@@ -24,8 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. 관리자에게 문의해 주세요.");
 
         return new org.springframework.security.core.userdetails.User(
-                user.getName(),
-                null,
+                user.getEmail(),
+                String.valueOf(user.getId()),
                 List.of(new SimpleGrantedAuthority("ROLE_USER")));
     }
 }
