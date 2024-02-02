@@ -1,5 +1,7 @@
 package best.bside.potenday.yumyum24.api;
 
+import best.bside.potenday.yumyum24.domain.ComboItemDescription;
+import best.bside.potenday.yumyum24.domain.Reply;
 import best.bside.potenday.yumyum24.payload.Response;
 import best.bside.potenday.yumyum24.payload.domain.Page;
 import best.bside.potenday.yumyum24.payload.domain.PageInfo;
@@ -10,10 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,5 +48,19 @@ public class ComboItemController {
         final Page<ComboItemInfo> comboItemInfoPage
                 = comboItemService.getComboItem(category, sortBy, new PageInfo(page, size));
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemInfoPage));
+    }
+
+    @Operation(summary = "꿀 조합 레시피 조회", description = "꿀 조합 레시피 조회 API.")
+    @GetMapping("/{id}")
+    public ResponseEntity<Response<List<ComboItemDescription>>> getComboItemDescription(@PathVariable("id") Long id) {
+        final List<ComboItemDescription> comboItemDescription = comboItemService.getComboItemDescription(id);
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemDescription));
+    }
+
+    @Operation(summary = "꿀 조합 댓글 조회", description = "꿀 조합 댓글 조회 API.")
+    @GetMapping("/{id}/reply")
+    public ResponseEntity<Response<List<Reply>>> getComboItemReply(@PathVariable("id") Long id) {
+        final List<Reply> comboItemReply = comboItemService.getComboItemReply(id);
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemReply));
     }
 }
