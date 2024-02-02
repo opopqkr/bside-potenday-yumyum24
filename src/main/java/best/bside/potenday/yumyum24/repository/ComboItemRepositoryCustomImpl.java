@@ -87,4 +87,29 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
         pageInfo.setTotalItemCount(select(c.count()).from(c).where(booleanBuilder).fetchOne());
         return new Page<>(list, pageInfo);
     }
+
+    @Override
+    public ComboItemInfo findComboItemInfoByComboItemId(Long comboItemId) {
+        QComboItem c = QComboItem.comboItem;
+        return select(Projections.constructor(ComboItemInfo.class,
+                c.comboItemId,
+                c.category,
+                c.name,
+                c.review,
+                c.isGoodCount))
+                .from(c)
+                .where(c.comboItemId.eq(comboItemId))
+                .fetchOne();
+    }
+
+    @Override
+    public void updateComboItemGoodCount(Long comboItemId, int value) {
+        QComboItem c = QComboItem.comboItem;
+
+        // 조회수 변경
+        update(c)
+                .set(c.isGoodCount, c.isGoodCount.add(value))
+                .where(c.comboItemId.eq(comboItemId))
+                .execute();
+    }
 }
