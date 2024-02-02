@@ -63,7 +63,6 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
         }
 
         OrderSpecifier<?> orderBy = c.comboItemId.desc();
-
         if (StringUtils.equals(sortBy, "TOP")) {
             orderBy = c.isGoodCount.desc();
         } else if (StringUtils.equals(sortBy, "NEW")) {

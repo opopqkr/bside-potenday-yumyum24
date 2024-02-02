@@ -57,7 +57,7 @@ public class ComboItemService {
                 .build();
     }
 
-    public Page<ComboItemInfo> getComboItems(String category, String sortBy, PageInfo pageInfo) {
+    public Page<ComboItemInfo> getComboItem(String category, String sortBy, PageInfo pageInfo) {
         final Page<ComboItemInfo> comboItemInfoPage
                 = comboItemRepository.findByCategoryOrderBySortByPageInfo(category, sortBy, pageInfo);
 

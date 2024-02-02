@@ -41,13 +41,13 @@ public class ComboItemController {
 
     @Operation(summary = "꿀 조합 목록 조회", description = "꿀 조합 목록 조회 API.")
     @GetMapping("/list")
-    public ResponseEntity<Response<Page<ComboItemInfo>>> getComboItems(@RequestParam("category") String category,
-                                                                       @RequestParam("sortBy") String sortBy,
-                                                                       @RequestParam("page") int page,
-                                                                       @RequestParam("size") int size) {
+    public ResponseEntity<Response<Page<ComboItemInfo>>> getComboItem(@RequestParam("category") String category,
+                                                                      @RequestParam("sortBy") String sortBy,
+                                                                      @RequestParam("page") int page,
+                                                                      @RequestParam("size") int size) {
 
         final Page<ComboItemInfo> comboItemInfoPage
-                = comboItemService.getComboItems(category, sortBy, new PageInfo(page, size));
+                = comboItemService.getComboItem(category, sortBy, new PageInfo(page, size));
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemInfoPage));
     }
 }
