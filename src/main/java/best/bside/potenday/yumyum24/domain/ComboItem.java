@@ -1,5 +1,7 @@
 package best.bside.potenday.yumyum24.domain;
 
+import best.bside.potenday.yumyum24.enums.Category;
+import best.bside.potenday.yumyum24.enums.converter.CategoryConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +22,9 @@ public class ComboItem {
 
     @Column(unique = true, nullable = false)
     private String name;
+
+    @Convert(converter = CategoryConverter.class)
+    private Category category;
 
     private Long isGoodCount = 0L;
 

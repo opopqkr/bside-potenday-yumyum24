@@ -2,6 +2,7 @@ package best.bside.potenday.yumyum24.api;
 
 import best.bside.potenday.yumyum24.payload.Response;
 import best.bside.potenday.yumyum24.payload.responses.ComboItemInfo;
+import best.bside.potenday.yumyum24.payload.responses.RecommendComboItem;
 import best.bside.potenday.yumyum24.service.ComboItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,13 @@ public class ComboItemController {
     public ResponseEntity<Response<List<ComboItemInfo>>> getRandomComboItem() {
         final List<ComboItemInfo> randomComboItems = comboItemService.getRandomComboItem();
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, randomComboItems));
+    }
+
+    @Operation(summary = "꿀 조합 추천(조합 + 조합) 조회",
+            description = "꿀 조합 추천(조합 + 조합) 조회 API.")
+    @GetMapping("/recommend")
+    public ResponseEntity<Response<RecommendComboItem>> getRecommendComboItem() {
+        final RecommendComboItem randomComboItem = comboItemService.getRecommendComboItem();
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK, randomComboItem));
     }
 }

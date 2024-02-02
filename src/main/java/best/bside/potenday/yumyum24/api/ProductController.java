@@ -1,20 +1,16 @@
 package best.bside.potenday.yumyum24.api;
 
-import best.bside.potenday.yumyum24.domain.Product;
 import best.bside.potenday.yumyum24.payload.Response;
-import best.bside.potenday.yumyum24.payload.requests.NewProduct;
-import best.bside.potenday.yumyum24.payload.responses.HotProduct;
-import best.bside.potenday.yumyum24.repository.ProductRepository;
+import best.bside.potenday.yumyum24.payload.responses.TopProduct;
 import best.bside.potenday.yumyum24.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import javax.validation.ValidationException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,18 +18,18 @@ import java.util.List;
 @RequestMapping(value = "/product")
 public class ProductController {
 
-    // FIXME Service Layer 옮길 예정, service layer 가 필요한지 확인 필요
     private final ProductService productService;
 
-    private final ProductRepository productRepository;
+    // private final ProductRepository productRepository;
 
     @Operation(summary = "인기 상품 Top3 목록 조회", description = "인기 상품 Top3 목록 조회 API.")
-    @GetMapping("/hot3")
-    public ResponseEntity<Response<List<HotProduct>>> getHotProducts() {
-        final List<HotProduct> hotProducts = productService.getHotProducts();
-        return ResponseEntity.ok().body(new Response<>(HttpStatus.OK, hotProducts));
+    @GetMapping("/top3")
+    public ResponseEntity<Response<List<TopProduct>>> getTopProducts() {
+        final List<TopProduct> topProducts = productService.getTopProducts();
+        return ResponseEntity.ok().body(new Response<>(HttpStatus.OK, topProducts));
     }
 
+    /*
     @Operation(summary = "상품 목록 조회", description = "상품 목록 조회 API.")
     @GetMapping
     public ResponseEntity<Response<List<Product>>> getProducts() {
@@ -77,4 +73,5 @@ public class ProductController {
         productRepository.deleteById(product.getProductId());
         return ResponseEntity.ok(new Response<>(HttpStatus.OK));
     }
+    */
 }

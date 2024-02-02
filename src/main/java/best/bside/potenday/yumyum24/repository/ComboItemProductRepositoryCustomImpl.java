@@ -10,7 +10,7 @@ import java.util.List;
 public class ComboItemProductRepositoryCustomImpl extends BaseRepository implements ComboItemProductRepositoryCustom {
 
     @Override
-    public List<Product> findByComboItemId(Long comboItemId) {
+    public List<Product> findProductByComboItemId(Long comboItemId) {
         QProduct p = QProduct.product;
         QComboItemProduct cp = QComboItemProduct.comboItemProduct;
 

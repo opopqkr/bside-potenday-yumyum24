@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class HotProduct {
+public class TopProduct {
 
     private Long productId;
 
@@ -21,10 +21,9 @@ public class HotProduct {
 
     private Long usedCount;
 
-    @Setter
     private List<String> comboItemName;
 
-    public HotProduct(Long productId, String productType, String name, String imageUrl, Long usedCount) {
+    public TopProduct(Long productId, String productType, String name, String imageUrl, Long usedCount) {
         this.productId = productId;
         this.productType = productType;
         this.name = name;

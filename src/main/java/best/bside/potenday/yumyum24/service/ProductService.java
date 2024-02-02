@@ -1,6 +1,6 @@
 package best.bside.potenday.yumyum24.service;
 
-import best.bside.potenday.yumyum24.payload.responses.HotProduct;
+import best.bside.potenday.yumyum24.payload.responses.TopProduct;
 import best.bside.potenday.yumyum24.repository.ComboItemProductRepository;
 import best.bside.potenday.yumyum24.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +16,16 @@ public class ProductService {
 
     private final ComboItemProductRepository comboItemProductRepository;
 
-    public List<HotProduct> getHotProducts() {
-        final List<HotProduct> hotProducts = productRepository.findOrderByUsedCount();
+    public List<TopProduct> getTopProducts() {
+        final List<TopProduct> topProducts = productRepository.findOrderByUsedCount();
 
-        if (hotProducts != null && !hotProducts.isEmpty()) {
-            for (HotProduct hotProduct : hotProducts) {
+        if (topProducts != null && !topProducts.isEmpty()) {
+            for (TopProduct hotProduct : topProducts) {
                 hotProduct.setComboItemName(comboItemProductRepository
                         .findComboItemNameByProductId(hotProduct.getProductId()));
             }
         }
 
-        return hotProducts;
+        return topProducts;
     }
 }

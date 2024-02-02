@@ -19,10 +19,8 @@ public class ComboItemInfo {
 
     private Long isGoodCount;
 
-    @Setter
     private List<Product> products;
 
-    @Setter
     private List<ComboItemDescription> comboItemDescriptions;
 
     public ComboItemInfo(Long comboItemId, String name, Long isGoodCount) {

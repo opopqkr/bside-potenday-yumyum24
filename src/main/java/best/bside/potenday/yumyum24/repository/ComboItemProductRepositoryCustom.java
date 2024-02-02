@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ComboItemProductRepositoryCustom {
 
-    List<Product> findByComboItemId(Long comboItemId);
+    List<Product> findProductByComboItemId(Long comboItemId);
 
     List<String> findComboItemNameByProductId(Long productId);
 
