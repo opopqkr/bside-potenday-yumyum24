@@ -20,7 +20,7 @@ public class ComboItemService {
     private final ComboItemDescriptionRepository comboItemDescriptionRepository;
 
     public List<ComboItemInfo> getRandomComboItem() {
-        List<ComboItemInfo> randomList = comboItemRepository.findOrderByRandom();
+        final List<ComboItemInfo> randomList = comboItemRepository.findOrderByRandom();
 
         if (randomList != null && !randomList.isEmpty()) {
             for (ComboItemInfo comboItemInfo : randomList) {

@@ -22,13 +22,15 @@ public class Product {
 
     private String productType;
 
-    private String productName;
+    private String name;
 
     @Lob
     @Basic(fetch = FetchType.EAGER)
     private String imageUrl;
 
     private int price;
+
+    private Long usedCount = 0L;
 
     private LocalDateTime savedAt;
 

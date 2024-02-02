@@ -8,4 +8,6 @@ public interface ComboItemProductRepositoryCustom {
 
     List<Product> findByComboItemId(Long comboItemId);
 
+    List<String> findComboItemNameByProductId(Long productId);
+
 }

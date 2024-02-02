@@ -23,7 +23,7 @@ public class ComboItemController {
     @Operation(summary = "꿀 조합 랜덤 조회", description = "꿀 조합 랜덤 조회 API.")
     @GetMapping("/random")
     public ResponseEntity<Response<List<ComboItemInfo>>> getRandomComboItem() {
-        final List<ComboItemInfo> comboItemInfo = comboItemService.getRandomComboItem();
-        return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemInfo));
+        final List<ComboItemInfo> randomComboItems = comboItemService.getRandomComboItem();
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK, randomComboItems));
     }
 }

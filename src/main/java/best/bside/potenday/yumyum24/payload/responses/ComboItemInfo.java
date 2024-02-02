@@ -30,6 +30,4 @@ public class ComboItemInfo {
         this.name = name;
         this.isGoodCount = isGoodCount;
     }
-
-
 }

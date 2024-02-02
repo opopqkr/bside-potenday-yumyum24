@@ -20,7 +20,7 @@ public class NewProduct {
     private String productType;
 
     @NotBlank
-    private String productName;
+    private String name;
 
     // @NotBlank
     private String imageUrl;
@@ -32,7 +32,7 @@ public class NewProduct {
         Product product = Product.builder()
                 .shopType(shopType)
                 .productType(productType)
-                .productName(productName)
+                .name(name)
                 .imageUrl(imageUrl == null ? null : imageUrl)
                 .price(price)
                 .build();
