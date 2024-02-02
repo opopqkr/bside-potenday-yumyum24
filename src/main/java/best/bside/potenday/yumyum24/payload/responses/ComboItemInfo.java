@@ -2,6 +2,7 @@ package best.bside.potenday.yumyum24.payload.responses;
 
 import best.bside.potenday.yumyum24.domain.ComboItemDescription;
 import best.bside.potenday.yumyum24.domain.Product;
+import best.bside.potenday.yumyum24.enums.Category;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ public class ComboItemInfo {
 
     private String name;
 
+    private Category category;
+
     private String review;
 
     private Long isGoodCount;
@@ -28,8 +31,9 @@ public class ComboItemInfo {
     @Setter
     private List<ComboItemDescription> comboItemDescriptions;
 
-    public ComboItemInfo(Long comboItemId, String name, String review, Long isGoodCount) {
+    public ComboItemInfo(Long comboItemId, Category category, String name, String review, Long isGoodCount) {
         this.comboItemId = comboItemId;
+        this.category = category;
         this.review = review;
         this.name = name;
         this.isGoodCount = isGoodCount;

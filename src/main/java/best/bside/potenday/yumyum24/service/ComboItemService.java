@@ -1,6 +1,8 @@
 package best.bside.potenday.yumyum24.service;
 
 import best.bside.potenday.yumyum24.enums.Category;
+import best.bside.potenday.yumyum24.payload.domain.Page;
+import best.bside.potenday.yumyum24.payload.domain.PageInfo;
 import best.bside.potenday.yumyum24.payload.responses.ComboItemInfo;
 import best.bside.potenday.yumyum24.payload.responses.RecommendComboItem;
 import best.bside.potenday.yumyum24.repository.ComboItemDescriptionRepository;
@@ -53,5 +55,19 @@ public class ComboItemService {
                 .foodComboItem(foodComboItem)
                 .drinkComboItem(drinkComboItem)
                 .build();
+    }
+
+    public Page<ComboItemInfo> getComboItems(String category, String sortBy, PageInfo pageInfo) {
+        final Page<ComboItemInfo> comboItemInfoPage
+                = comboItemRepository.findByCategoryOrderBySortByPageInfo(category, sortBy, pageInfo);
+
+        final List<ComboItemInfo> list = comboItemInfoPage.getResult();
+        if (list != null && !list.isEmpty()) {
+            for (ComboItemInfo comboItemInfo : list) {
+                comboItemInfo.setProducts(comboItemProductRepository.findProductByComboItemId(comboItemInfo.getComboItemId()));
+            }
+        }
+
+        return comboItemInfoPage;
     }
 }
