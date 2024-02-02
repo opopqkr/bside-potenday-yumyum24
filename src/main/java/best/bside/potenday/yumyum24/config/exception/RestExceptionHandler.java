@@ -36,7 +36,6 @@ public class RestExceptionHandler {
 
     private ResponseEntity<Response<String>> buildResponseEntity(HttpStatus status, String detailMessage) {
         final Response<String> response = new Response<>(status, detailMessage);
-
         return ResponseEntity.status(status.value()).body(response);
     }
 

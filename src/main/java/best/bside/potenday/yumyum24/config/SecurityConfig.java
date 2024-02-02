@@ -73,7 +73,7 @@ public class SecurityConfig {
                 .authorizeRequests(authorize ->
                         authorize
                                 .antMatchers(ENDPOINTS_WHITELIST).permitAll()
-                                .mvcMatchers("/test/*", "/user/profile").authenticated())
+                                .mvcMatchers("/user/profile").authenticated())
                 .exceptionHandling()
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 .accessDeniedHandler(new JwtAccessDeniedHandler())
