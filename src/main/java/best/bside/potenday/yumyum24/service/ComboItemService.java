@@ -5,6 +5,7 @@ import best.bside.potenday.yumyum24.domain.Reply;
 import best.bside.potenday.yumyum24.enums.Category;
 import best.bside.potenday.yumyum24.payload.domain.Page;
 import best.bside.potenday.yumyum24.payload.domain.PageInfo;
+import best.bside.potenday.yumyum24.payload.requests.ReplyRequest;
 import best.bside.potenday.yumyum24.payload.responses.ComboItemInfo;
 import best.bside.potenday.yumyum24.payload.responses.RecommendComboItem;
 import best.bside.potenday.yumyum24.repository.*;
@@ -26,7 +27,7 @@ public class ComboItemService {
 
     private final RecommedMentRepository recommedMentRepository;
 
-    private final ReplyRepository repository;
+    private final ReplyRepository replyRepository;
 
     public List<ComboItemInfo> getRandomComboItem() {
         final List<ComboItemInfo> randomList = comboItemRepository.findOrderByRandom();
@@ -77,6 +78,12 @@ public class ComboItemService {
     }
 
     public Page<Reply> getComboItemReply(Long id, PageInfo pageInfo) {
-        return repository.findByPageInfo(id, pageInfo);
+        return replyRepository.findByPageInfo(id, pageInfo);
+    }
+
+    public void writeReply(Long comboItemId, String userName, ReplyRequest replyRequest) {
+        Reply reply = replyRequest.toEntity(comboItemId, userName);
+        reply.completeIssueReply();
+        replyRepository.save(reply);
     }
 }

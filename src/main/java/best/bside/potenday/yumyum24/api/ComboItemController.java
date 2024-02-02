@@ -5,9 +5,11 @@ import best.bside.potenday.yumyum24.domain.Reply;
 import best.bside.potenday.yumyum24.payload.Response;
 import best.bside.potenday.yumyum24.payload.domain.Page;
 import best.bside.potenday.yumyum24.payload.domain.PageInfo;
+import best.bside.potenday.yumyum24.payload.requests.ReplyRequest;
 import best.bside.potenday.yumyum24.payload.responses.ComboItemInfo;
 import best.bside.potenday.yumyum24.payload.responses.RecommendComboItem;
 import best.bside.potenday.yumyum24.service.ComboItemService;
+import best.bside.potenday.yumyum24.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,8 @@ import java.util.List;
 @RequestMapping("/combo-item")
 @RequiredArgsConstructor
 public class ComboItemController {
+
+    private final UserService userService;
 
     private final ComboItemService comboItemService;
 
@@ -65,5 +69,14 @@ public class ComboItemController {
 
         final Page<Reply> comboItemReplyPage = comboItemService.getComboItemReply(id, new PageInfo(page, size));
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemReplyPage));
+    }
+
+    @Operation(summary = "꿀 조합 댓글 등록", description = "꿀 조합 댓글 등록 API.")
+    @PostMapping("/{id}/reply")
+    public ResponseEntity<Response<Void>> writeReply(@PathVariable("id") Long id,
+                                                     @RequestBody ReplyRequest replyRequest) {
+        final String userName = userService.getUserName();
+        comboItemService.writeReply(id, userName, replyRequest);
+        return ResponseEntity.ok(new Response<>(HttpStatus.CREATED));
     }
 }

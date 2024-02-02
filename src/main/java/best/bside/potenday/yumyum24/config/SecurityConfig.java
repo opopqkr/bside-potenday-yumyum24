@@ -46,13 +46,7 @@ public class SecurityConfig {
             /* swagger v3 */
             "/v3/api-docs/**",
             "/swagger-ui/**",
-
-            // FIXME 임시 테스트용
-            "/product/**",
-            "/user/login"
     };
-
-    // FIXME logout 추가
 
     /**
      * Security config <br>

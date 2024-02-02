@@ -29,7 +29,14 @@ public class Reply {
 
     private LocalDateTime issuedAt;
 
+    private LocalDateTime modifiedAt;
+
     public void completeIssueReply() {
         this.issuedAt = LocalDateTime.now();
+        this.modifiedAt = LocalDateTime.now();
+    }
+
+    public void updateReply() {
+        this.modifiedAt = LocalDateTime.now();
     }
 }
