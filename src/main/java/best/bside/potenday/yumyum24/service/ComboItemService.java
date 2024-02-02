@@ -31,7 +31,6 @@ public class ComboItemService {
         if (randomList != null && !randomList.isEmpty()) {
             for (ComboItemInfo comboItemInfo : randomList) {
                 comboItemInfo.setProducts(comboItemProductRepository.findProductByComboItemId(comboItemInfo.getComboItemId()));
-                comboItemInfo.setComboItemDescriptions(comboItemDescriptionRepository.findByComboItemId(comboItemInfo.getComboItemId()));
             }
         }
 

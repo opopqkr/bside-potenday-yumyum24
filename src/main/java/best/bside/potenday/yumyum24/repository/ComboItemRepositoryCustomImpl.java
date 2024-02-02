@@ -17,6 +17,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
         return select(Projections.constructor(ComboItemInfo.class,
                 c.comboItemId,
                 c.name,
+                c.review,
                 c.isGoodCount))
                 .from(c)
                 .where(c.category.eq(category))
@@ -33,6 +34,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
         return select(Projections.constructor(ComboItemInfo.class,
                 c.comboItemId,
                 c.name,
+                c.review,
                 c.isGoodCount))
                 .from(c)
                 .orderBy(Expressions

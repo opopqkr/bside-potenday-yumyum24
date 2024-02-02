@@ -23,6 +23,8 @@ public class ComboItem {
     @Column(unique = true, nullable = false)
     private String name;
 
+    private String review;
+
     @Convert(converter = CategoryConverter.class)
     private Category category;
 
