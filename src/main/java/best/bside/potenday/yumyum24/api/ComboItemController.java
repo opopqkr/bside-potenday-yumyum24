@@ -59,8 +59,11 @@ public class ComboItemController {
 
     @Operation(summary = "꿀 조합 댓글 조회", description = "꿀 조합 댓글 조회 API.")
     @GetMapping("/{id}/reply")
-    public ResponseEntity<Response<List<Reply>>> getComboItemReply(@PathVariable("id") Long id) {
-        final List<Reply> comboItemReply = comboItemService.getComboItemReply(id);
-        return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemReply));
+    public ResponseEntity<Response<Page<Reply>>> getComboItemReply(@PathVariable("id") Long id,
+                                                                   @RequestParam("page") int page,
+                                                                   @RequestParam("size") int size) {
+
+        final Page<Reply> comboItemReplyPage = comboItemService.getComboItemReply(id, new PageInfo(page, size));
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemReplyPage));
     }
 }

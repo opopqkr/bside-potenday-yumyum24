@@ -25,7 +25,7 @@ public class Reply {
     private String userName;
 
     @Column(nullable = false)
-    private String reply;
+    private String content;
 
     private LocalDateTime issuedAt;
 

@@ -73,10 +73,10 @@ public class ComboItemService {
     }
 
     public List<ComboItemDescription> getComboItemDescription(Long id) {
-        return comboItemDescriptionRepository.findByComboItemId(id);
+        return comboItemDescriptionRepository.findByComboItemIdOrderByOrderNumber(id);
     }
 
-    public List<Reply> getComboItemReply(Long id) {
-        return repository.findByComboItemId(id);
+    public Page<Reply> getComboItemReply(Long id, PageInfo pageInfo) {
+        return repository.findByPageInfo(id, pageInfo);
     }
 }

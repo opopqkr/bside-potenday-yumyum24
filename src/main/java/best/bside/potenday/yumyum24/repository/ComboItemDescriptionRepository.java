@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ComboItemDescriptionRepository extends JpaRepository<ComboItemDescription, ComboItemDescriptionId> {
 
-    List<ComboItemDescription> findByComboItemId(Long id);
+    List<ComboItemDescription> findByComboItemIdOrderByOrderNumber(Long id);
 
 }
