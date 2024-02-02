@@ -7,11 +7,8 @@ import best.bside.potenday.yumyum24.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,12 +29,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<Response<Profile>> getProfile() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        if (StringUtils.isBlank(email))
-            throw new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
-
-        Profile profile = userService.getProfile(email);
+        Profile profile = userService.getProfile();
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, profile));
     }
 }

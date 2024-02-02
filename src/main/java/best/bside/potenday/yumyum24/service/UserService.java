@@ -7,9 +7,9 @@ import best.bside.potenday.yumyum24.payload.responses.Profile;
 import best.bside.potenday.yumyum24.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +19,6 @@ public class UserService {
 
     private final JwtProvider jwtProvider;
 
-    @Transactional
     public String login(LoginRequest loginRequest) {
         User user = userRepository.findByEmail(loginRequest.getEmail());
 
@@ -37,10 +36,12 @@ public class UserService {
         return jwtProvider.createToken(user.getEmail());
     }
 
-    public Profile getProfile(String email) {
-        User user = userRepository.findByEmail(email);
+    public Profile getProfile() {
+        String email = validationToken();
 
-        if (user == null) throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. 관리자에게 문의해 주세요.");
+        User user = userRepository.findByEmail(email);
+        if (user == null)
+            throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. 관리자에게 문의해 주세요.");
 
         return Profile.builder()
                 .name(user.getName())
@@ -49,4 +50,12 @@ public class UserService {
                 .build();
     }
 
+    public String validationToken() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (StringUtils.isBlank(email))
+            throw new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
+
+        return email;
+    }
 }
