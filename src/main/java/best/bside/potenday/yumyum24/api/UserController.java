@@ -27,9 +27,10 @@ public class UserController {
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, userService.login(loginRequest)));
     }
 
+    @Operation(summary = "프로필 조회", description = "프로필 조회 API.")
     @GetMapping("/profile")
     public ResponseEntity<Response<Profile>> getProfile() {
-        Profile profile = userService.getProfile();
+        final Profile profile = userService.getProfile();
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, profile));
     }
 }
