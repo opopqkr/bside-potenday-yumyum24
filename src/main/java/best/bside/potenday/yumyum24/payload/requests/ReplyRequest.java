@@ -18,9 +18,7 @@ public class ReplyRequest {
     public Reply toEntity(Long comboItemId, String userName) {
         return Reply.builder()
                 .comboItemId(comboItemId)
-                .userName(userName)
                 .content(content)
                 .build();
-
     }
 }

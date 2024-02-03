@@ -55,12 +55,21 @@ public class UserController {
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, userBookmarkInfoPage));
     }
 
-    @Operation(summary = "사용자 찜 등록/삭제 API", description = "사용자 찜 등록/삭제 API")
-    @PostMapping("/bookmark/{id}")
-    public ResponseEntity<Response<Void>> toggleBookmark(@NotNull @PathVariable("id") Long id) {
+    @Operation(summary = "사용자 찜 등록 API", description = "사용자 찜 등록 API.")
+    @PostMapping("/bookmark/{comboItem}")
+    public ResponseEntity<Response<Void>> addComboItemBookmark(@NotNull @PathVariable("comboItem") Long comboItem) {
         String email = userService.validationToken();
 
-        bookmarkService.toggleUserBookmarkComboItem(email, id);
+        bookmarkService.saveBookmark(email, comboItem);
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK));
+    }
+
+    @Operation(summary = "사용자 찜 삭제 API", description = "사용자 찜 삭제 API.")
+    @DeleteMapping("/bookmark/{comboItem}")
+    public ResponseEntity<Response<Void>> deleteComboItemBookmark(@NotNull @PathVariable("comboItem") Long comboItem) {
+        String email = userService.validationToken();
+
+        bookmarkService.deleteBookmark(email, comboItem);
         return ResponseEntity.ok(new Response<>(HttpStatus.OK));
     }
 }

@@ -12,9 +12,10 @@ import best.bside.potenday.yumyum24.repository.ComboItemRepository;
 import best.bside.potenday.yumyum24.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 
@@ -52,22 +53,30 @@ public class BookmarkService {
         }
     }
 
-    public void toggleUserBookmarkComboItem(String email, Long comboItemId) {
+    @Transactional
+    public void saveBookmark(String email, Long comboItemId) {
+        final User user = userRepository.findByEmail(email);
+
+        Bookmark bookmark = Bookmark.builder()
+                .userId(user.getUserId())
+                .comboItemId(comboItemId)
+                .build();
+
+        bookmark.completeSaveBookmark();
+        bookmarkRepository.save(bookmark);
+        comboItemRepository.updateComboItemBookmarkCount(comboItemId, 1L);
+    }
+
+    @Transactional
+    public void deleteBookmark(String email, Long comboItemId) {
         final User user = userRepository.findByEmail(email);
         Bookmark bookmark
                 = bookmarkRepository.findByUserIdAndComboItemId(user.getUserId(), comboItemId);
 
-        if (bookmark == null) {
-            bookmark = Bookmark.builder()
-                    .userId(user.getUserId())
-                    .comboItemId(comboItemId)
-                    .build();
-            bookmark.completeSaveBookmark();
-            comboItemRepository.updateComboItemBookmarkCount(comboItemId, 1L);
-        } else {
-            bookmark.completeModifiedBookmark();
-            Long value = StringUtils.equals("Y", bookmark.getIsBookmarked()) ? -1L : 1L;
-            comboItemRepository.updateComboItemBookmarkCount(comboItemId, value);
-        }
+        if (ObjectUtils.isEmpty(bookmark))
+            throw new NoResultException("해당 꿀 조합을 찾을 수 없습니다.");
+
+        bookmarkRepository.delete(bookmark);
+        comboItemRepository.updateComboItemBookmarkCount(comboItemId, -1L);
     }
 }

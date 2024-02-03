@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class ComboItem {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comboItemId;
 
     @Column(unique = true, nullable = false)

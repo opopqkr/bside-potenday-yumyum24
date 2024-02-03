@@ -2,10 +2,7 @@ package best.bside.potenday.yumyum24.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalTime;
 
 @Getter
@@ -18,7 +15,7 @@ import java.time.LocalTime;
 public class RecommendMent {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recommendId;
 
     private LocalTime startTime;

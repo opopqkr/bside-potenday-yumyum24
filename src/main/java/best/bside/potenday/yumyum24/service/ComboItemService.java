@@ -2,12 +2,14 @@ package best.bside.potenday.yumyum24.service;
 
 import best.bside.potenday.yumyum24.domain.ComboItemDescription;
 import best.bside.potenday.yumyum24.domain.Reply;
+import best.bside.potenday.yumyum24.domain.User;
 import best.bside.potenday.yumyum24.enums.Category;
 import best.bside.potenday.yumyum24.payload.domain.Page;
 import best.bside.potenday.yumyum24.payload.domain.PageInfo;
 import best.bside.potenday.yumyum24.payload.requests.ReplyRequest;
 import best.bside.potenday.yumyum24.payload.responses.ComboItemInfo;
 import best.bside.potenday.yumyum24.payload.responses.RecommendComboItem;
+import best.bside.potenday.yumyum24.payload.responses.ReplyInfo;
 import best.bside.potenday.yumyum24.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ public class ComboItemService {
     private final RecommedMentRepository recommedMentRepository;
 
     private final ReplyRepository replyRepository;
+
+    private final UserRepository userRepository;
 
     public List<ComboItemInfo> getRandomComboItem() {
         final List<ComboItemInfo> randomList = comboItemRepository.findOrderByRandom();
@@ -77,8 +81,9 @@ public class ComboItemService {
         return comboItemDescriptionRepository.findByComboItemIdOrderByOrderNumber(id);
     }
 
-    public Page<Reply> getComboItemReply(Long id, PageInfo pageInfo) {
-        return replyRepository.findByPageInfo(id, pageInfo);
+    public Page<ReplyInfo> getComboItemReply(String email, Long comboItemId, PageInfo pageInfo) {
+        User user = userRepository.findByEmail(email);
+        return replyRepository.findByPageInfo(user.getUserId(), comboItemId, pageInfo);
     }
 
     public void writeReply(Long comboItemId, String email, ReplyRequest replyRequest) {

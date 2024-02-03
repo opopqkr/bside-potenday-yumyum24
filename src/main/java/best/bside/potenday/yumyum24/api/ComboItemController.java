@@ -1,13 +1,13 @@
 package best.bside.potenday.yumyum24.api;
 
 import best.bside.potenday.yumyum24.domain.ComboItemDescription;
-import best.bside.potenday.yumyum24.domain.Reply;
 import best.bside.potenday.yumyum24.payload.Response;
 import best.bside.potenday.yumyum24.payload.domain.Page;
 import best.bside.potenday.yumyum24.payload.domain.PageInfo;
 import best.bside.potenday.yumyum24.payload.requests.ReplyRequest;
 import best.bside.potenday.yumyum24.payload.responses.ComboItemInfo;
 import best.bside.potenday.yumyum24.payload.responses.RecommendComboItem;
+import best.bside.potenday.yumyum24.payload.responses.ReplyInfo;
 import best.bside.potenday.yumyum24.service.ComboItemService;
 import best.bside.potenday.yumyum24.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,11 +63,12 @@ public class ComboItemController {
 
     @Operation(summary = "꿀 조합 댓글 조회", description = "꿀 조합 댓글 조회 API.")
     @GetMapping("/{id}/reply")
-    public ResponseEntity<Response<Page<Reply>>> getComboItemReply(@PathVariable("id") Long id,
-                                                                   @RequestParam("page") int page,
-                                                                   @RequestParam("size") int size) {
+    public ResponseEntity<Response<Page<ReplyInfo>>> getComboItemReply(@PathVariable("id") Long id,
+                                                                       @RequestParam("page") int page,
+                                                                       @RequestParam("size") int size) {
+        String email = userService.validationToken();
 
-        final Page<Reply> comboItemReplyPage = comboItemService.getComboItemReply(id, new PageInfo(page, size));
+        final Page<ReplyInfo> comboItemReplyPage = comboItemService.getComboItemReply(email, id, new PageInfo(page, size));
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemReplyPage));
     }
 

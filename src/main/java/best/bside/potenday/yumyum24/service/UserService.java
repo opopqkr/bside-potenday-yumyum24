@@ -51,11 +51,6 @@ public class UserService {
     }
 
     public String validationToken() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        if (StringUtils.isBlank(email))
-            throw new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.");
-
-        return email;
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

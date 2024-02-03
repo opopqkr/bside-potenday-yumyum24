@@ -15,14 +15,14 @@ import java.time.LocalDateTime;
 public class Reply {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long replyId;
 
     @Column(nullable = false)
     private Long comboItemId;
 
     @Column(nullable = false)
-    private String userName;
+    private Long writerId;
 
     @Column(nullable = false)
     private String content;
@@ -33,7 +33,6 @@ public class Reply {
 
     public void completeIssueReply() {
         this.issuedAt = LocalDateTime.now();
-        this.modifiedAt = LocalDateTime.now();
     }
 
     public void updateReply() {
