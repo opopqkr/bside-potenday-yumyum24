@@ -52,6 +52,13 @@ public class BookmarkService {
         }
     }
 
+    public Boolean isComboItemBookmark(String email, Long comboItemId){
+        final User user = userRepository.findByEmail(email);
+        Bookmark bookmark
+                = bookmarkRepository.findByUserIdAndComboItemId(user.getUserId(), comboItemId);
+        return ObjectUtils.isEmpty(bookmark) ? Boolean.FALSE : Boolean.TRUE;
+    }
+
     @Transactional
     public void saveBookmark(String email, Long comboItemId) {
         final User user = userRepository.findByEmail(email);

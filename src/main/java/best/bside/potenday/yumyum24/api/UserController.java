@@ -57,6 +57,15 @@ public class UserController {
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, userBookmarkInfoPage));
     }
 
+    @Operation(summary = "상품 찜 여부 조회 API", description = "상품 찜 여부 조회 API")
+    @GetMapping("/bookmark/{comboItemId}")
+    public ResponseEntity<Response<Boolean>> isComboItemBookmark(@NotNull @PathVariable("comboItemId") Long comboItemId) {
+
+        String email = userService.getEmail();
+
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK, bookmarkService.isComboItemBookmark(email,comboItemId)));
+    }
+
     @Operation(summary = "사용자 찜 등록 API", description = "사용자 찜 등록 API.")
     @PostMapping("/bookmark/{comboItemId}")
     public ResponseEntity<Response<Void>> addComboItemBookmark(@NotNull @PathVariable("comboItemId") Long comboItemId) {
