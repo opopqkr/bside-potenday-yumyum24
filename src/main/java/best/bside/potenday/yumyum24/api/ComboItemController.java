@@ -62,23 +62,38 @@ public class ComboItemController {
     }
 
     @Operation(summary = "꿀 조합 댓글 조회", description = "꿀 조합 댓글 조회 API.")
-    @GetMapping("/{id}/reply")
-    public ResponseEntity<Response<Page<ReplyInfo>>> getComboItemReply(@PathVariable("id") Long id,
+    @GetMapping("/{comboItemId}/reply")
+    public ResponseEntity<Response<Page<ReplyInfo>>> getComboItemReply(@PathVariable("comboItemId") Long comboItemId,
                                                                        @RequestParam("page") int page,
                                                                        @RequestParam("size") int size) {
-        String email = userService.validationToken();
+        String email = userService.getEmail();
 
-        final Page<ReplyInfo> comboItemReplyPage = comboItemService.getComboItemReply(email, id, new PageInfo(page, size));
+        final Page<ReplyInfo> comboItemReplyPage = comboItemService.getComboItemReply(email, comboItemId, new PageInfo(page, size));
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, comboItemReplyPage));
     }
 
     @Operation(summary = "꿀 조합 댓글 등록", description = "꿀 조합 댓글 등록 API.")
-    @PostMapping("/{id}/reply")
-    public ResponseEntity<Response<Void>> writeReply(@PathVariable("id") Long id,
+    @PostMapping("/{comboItemId}/reply")
+    public ResponseEntity<Response<Void>> writeReply(@PathVariable("comboItemId") Long comboItemId,
                                                      @RequestBody ReplyRequest replyRequest) {
-        // FIXME 여기서 부터 user id 로 수정 필요.
-        String email = userService.validationToken();
-        comboItemService.writeReply(id, email, replyRequest);
+        String email = userService.getEmail();
+        comboItemService.writeReply(email, comboItemId, replyRequest);
         return ResponseEntity.ok(new Response<>(HttpStatus.CREATED));
+    }
+
+    @Operation(summary = "꿀 조합 댓글 수정", description = "꿀 조합 댓글 수정 API.")
+    @PutMapping("/{replyId}")
+    public ResponseEntity<Response<Void>> updateReply(@PathVariable("replyId") Long replyId,
+                                                      @RequestBody String content) {
+        comboItemService.updateReply(replyId, content);
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK));
+    }
+
+    @Operation(summary = "꿀 조합 댓글 삭제", description = "꿀 조합 댓글 삭제 API.")
+    @DeleteMapping("/{replyId}")
+    public ResponseEntity<Response<Void>> deleteReply(@PathVariable("replyId") Long replyId) {
+
+        comboItemService.deleteReply(replyId);
+        return ResponseEntity.ok(new Response<>(HttpStatus.OK));
     }
 }

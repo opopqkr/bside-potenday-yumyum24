@@ -15,9 +15,10 @@ public class ReplyRequest {
     @Max(value = 255, message = "255 글자 이상 작성할 수 없습니다.")
     private String content;
 
-    public Reply toEntity(Long comboItemId, String userName) {
+    public Reply toEntity(Long comboItemId, Long writerId) {
         return Reply.builder()
                 .comboItemId(comboItemId)
+                .writerId(writerId)
                 .content(content)
                 .build();
     }

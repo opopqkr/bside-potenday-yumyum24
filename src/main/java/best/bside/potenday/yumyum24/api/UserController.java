@@ -38,7 +38,9 @@ public class UserController {
     @Operation(summary = "프로필 조회", description = "프로필 조회 API.")
     @GetMapping("/profile")
     public ResponseEntity<Response<Profile>> getProfile() {
-        final Profile profile = userService.getProfile();
+        String email = userService.getEmail();
+        final Profile profile = userService.getProfile(email);
+
         return ResponseEntity.ok(new Response<>(HttpStatus.OK, profile));
     }
 
@@ -48,7 +50,7 @@ public class UserController {
                                                                                           @RequestParam("page") int page,
                                                                                           @RequestParam("size") int size) {
 
-        String email = userService.validationToken();
+        String email = userService.getEmail();
 
         final Page<ComboItemInfo> userBookmarkInfoPage
                 = bookmarkService.getUserBookmarkComboItemPageInfo(email, category, new PageInfo(page, size));
@@ -56,20 +58,20 @@ public class UserController {
     }
 
     @Operation(summary = "사용자 찜 등록 API", description = "사용자 찜 등록 API.")
-    @PostMapping("/bookmark/{comboItem}")
-    public ResponseEntity<Response<Void>> addComboItemBookmark(@NotNull @PathVariable("comboItem") Long comboItem) {
-        String email = userService.validationToken();
+    @PostMapping("/bookmark/{comboItemId}")
+    public ResponseEntity<Response<Void>> addComboItemBookmark(@NotNull @PathVariable("comboItemId") Long comboItemId) {
+        String email = userService.getEmail();
 
-        bookmarkService.saveBookmark(email, comboItem);
+        bookmarkService.saveBookmark(email, comboItemId);
         return ResponseEntity.ok(new Response<>(HttpStatus.OK));
     }
 
     @Operation(summary = "사용자 찜 삭제 API", description = "사용자 찜 삭제 API.")
-    @DeleteMapping("/bookmark/{comboItem}")
-    public ResponseEntity<Response<Void>> deleteComboItemBookmark(@NotNull @PathVariable("comboItem") Long comboItem) {
-        String email = userService.validationToken();
+    @DeleteMapping("/bookmark/{comboItemId}")
+    public ResponseEntity<Response<Void>> deleteComboItemBookmark(@NotNull @PathVariable("comboItemId") Long comboItemId) {
+        String email = userService.getEmail();
 
-        bookmarkService.deleteBookmark(email, comboItem);
+        bookmarkService.deleteBookmark(email, comboItemId);
         return ResponseEntity.ok(new Response<>(HttpStatus.OK));
     }
 }

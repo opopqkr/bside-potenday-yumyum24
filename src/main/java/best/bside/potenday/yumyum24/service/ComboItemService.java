@@ -13,7 +13,9 @@ import best.bside.potenday.yumyum24.payload.responses.ReplyInfo;
 import best.bside.potenday.yumyum24.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -83,12 +85,39 @@ public class ComboItemService {
 
     public Page<ReplyInfo> getComboItemReply(String email, Long comboItemId, PageInfo pageInfo) {
         User user = userRepository.findByEmail(email);
-        return replyRepository.findByPageInfo(user.getUserId(), comboItemId, pageInfo);
+
+        if (user == null) {
+            return replyRepository.findByPageInfo(comboItemId, pageInfo);
+        } else {
+            return replyRepository.findByPageInfo(user.getUserId(), comboItemId, pageInfo);
+        }
     }
 
-    public void writeReply(Long comboItemId, String email, ReplyRequest replyRequest) {
-        Reply reply = replyRequest.toEntity(comboItemId, email);
+    // FIXME 등록시 콤보 아이템 댓글 갯수 올리기,
+    @Transactional
+    public void writeReply(String email, Long comboItemId, ReplyRequest replyRequest) {
+        final User user = userRepository.findByEmail(email);
+
+        Reply reply = replyRequest.toEntity(comboItemId, user.getUserId());
         reply.completeIssueReply();
         replyRepository.save(reply);
+    }
+
+    @Transactional
+    public void updateReply(Long replyId, String content) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new NoResultException("해당 댓글은 삭제되었습니다."));
+
+        reply.setContent(content);
+        reply.updateReply();
+        replyRepository.save(reply);
+    }
+
+    @Transactional
+    public void deleteReply(Long replyId) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new NoResultException("해당 댓글은 삭제되었습니다."));
+
+        replyRepository.delete(reply);
     }
 }

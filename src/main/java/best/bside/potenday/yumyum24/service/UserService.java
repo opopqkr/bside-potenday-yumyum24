@@ -36,9 +36,7 @@ public class UserService {
         return jwtProvider.createToken(user.getEmail());
     }
 
-    public Profile getProfile() {
-        String email = validationToken();
-
+    public Profile getProfile(String email) {
         User user = userRepository.findByEmail(email);
         if (user == null)
             throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. 관리자에게 문의해 주세요.");
@@ -50,7 +48,7 @@ public class UserService {
                 .build();
     }
 
-    public String validationToken() {
+    public String getEmail() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }
