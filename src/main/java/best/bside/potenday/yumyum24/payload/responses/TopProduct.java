@@ -19,11 +19,11 @@ public class TopProduct {
 
     private String imageUrl;
 
-    private Long usedCount;
+    private long usedCount;
 
     private List<String> comboItemName;
 
-    public TopProduct(Long productId, String productType, String name, String imageUrl, Long usedCount) {
+    public TopProduct(Long productId, String productType, String name, String imageUrl, long usedCount) {
         this.productId = productId;
         this.productType = productType;
         this.name = name;

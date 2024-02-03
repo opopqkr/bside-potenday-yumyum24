@@ -19,4 +19,6 @@ public interface ComboItemRepositoryCustom {
 
     void updateComboItemBookmarkCount(Long comboItemId, Long value);
 
+    void updateComboItemReplyCount(Long comboItemId, Long value);
+
 }

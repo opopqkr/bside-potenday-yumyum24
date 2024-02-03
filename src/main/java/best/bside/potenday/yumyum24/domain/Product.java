@@ -30,7 +30,7 @@ public class Product {
 
     private int price;
 
-    private Long usedCount = 0L;
+    private long usedCount;
 
     private LocalDateTime savedAt;
 

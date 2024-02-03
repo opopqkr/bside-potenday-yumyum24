@@ -14,7 +14,7 @@ public class PageInfo {
     private final int size;
 
     @Setter
-    private Long totalItemCount;
+    private long totalItemCount;
 
     public PageInfo(int page, int size) {
         this.page = page <= 0 ? 1 : page;
@@ -29,7 +29,6 @@ public class PageInfo {
     }
 
     public int getTotalPage() {
-        totalItemCount = totalItemCount == null ? 0 : totalItemCount;
         return Math.max(1, (int) Math.ceil((totalItemCount * 1.0) / (size * 1.0)));
     }
 }

@@ -22,7 +22,6 @@ public class NewProduct {
     @NotBlank
     private String name;
 
-    // @NotBlank
     private String imageUrl;
 
     @Min(value = 10, message = "10원 이상의 상품만 등록 가능 합니다.")

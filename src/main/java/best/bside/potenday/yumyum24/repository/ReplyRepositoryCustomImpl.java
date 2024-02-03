@@ -35,7 +35,8 @@ public class ReplyRepositoryCustomImpl extends BaseRepository implements ReplyRe
                         .orderBy(r.issuedAt.desc())
                         .fetch();
 
-        pageInfo.setTotalItemCount(select(r.count()).from(r).where(r.comboItemId.eq(comboItemId)).fetchOne());
+        Long totalItemCount = select(r.count()).from(r).where(r.comboItemId.eq(comboItemId)).fetchOne();
+        pageInfo.setTotalItemCount(totalItemCount == null ? 0 : totalItemCount);
         return new Page<>(list, pageInfo);
     }
 
@@ -65,7 +66,8 @@ public class ReplyRepositoryCustomImpl extends BaseRepository implements ReplyRe
                         .orderBy(r.issuedAt.desc())
                         .fetch();
 
-        pageInfo.setTotalItemCount(select(r.count()).from(r).where(r.comboItemId.eq(comboItemId)).fetchOne());
+        Long totalItemCount = select(r.count()).from(r).where(r.comboItemId.eq(comboItemId)).fetchOne();
+        pageInfo.setTotalItemCount(totalItemCount == null ? 0 : totalItemCount);
         return new Page<>(list, pageInfo);
     }
 }

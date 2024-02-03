@@ -90,10 +90,11 @@ public class ComboItemController {
     }
 
     @Operation(summary = "꿀 조합 댓글 삭제", description = "꿀 조합 댓글 삭제 API.")
-    @DeleteMapping("/{replyId}")
-    public ResponseEntity<Response<Void>> deleteReply(@PathVariable("replyId") Long replyId) {
+    @DeleteMapping("/{comboItemId}/{replyId}")
+    public ResponseEntity<Response<Void>> deleteReply(@PathVariable("comboItemId") Long comboItemId,
+                                                      @PathVariable("replyId") Long replyId) {
 
-        comboItemService.deleteReply(replyId);
+        comboItemService.deleteReply(comboItemId, replyId);
         return ResponseEntity.ok(new Response<>(HttpStatus.OK));
     }
 }

@@ -4,6 +4,7 @@ import best.bside.potenday.yumyum24.payload.responses.TopProduct;
 import best.bside.potenday.yumyum24.repository.ComboItemProductRepository;
 import best.bside.potenday.yumyum24.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class ProductService {
     public List<TopProduct> getTopProducts() {
         final List<TopProduct> topProducts = productRepository.findOrderByUsedCount();
 
-        if (topProducts != null && !topProducts.isEmpty()) {
+        if (ObjectUtils.isNotEmpty(topProducts)) {
             for (TopProduct hotProduct : topProducts) {
                 hotProduct.setComboItemName(comboItemProductRepository
                         .findComboItemNameByProductId(hotProduct.getProductId()));

@@ -28,7 +28,9 @@ public class ComboItem {
     @Convert(converter = CategoryConverter.class)
     private Category category;
 
-    private Long bookmarkCount = 0L;
+    private long bookmarkCount;
+
+    private long replyCount;
 
     private LocalDateTime createdAt;
 

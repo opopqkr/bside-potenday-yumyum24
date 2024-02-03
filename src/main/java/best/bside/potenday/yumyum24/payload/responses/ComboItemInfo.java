@@ -23,7 +23,9 @@ public class ComboItemInfo {
 
     private String review;
 
-    private Long isGoodCount;
+    private long isGoodCount;
+
+    private long replyCount;
 
     @Setter
     private List<Product> products;
@@ -31,11 +33,12 @@ public class ComboItemInfo {
     @Setter
     private List<ComboItemDescription> comboItemDescriptions;
 
-    public ComboItemInfo(Long comboItemId, Category category, String name, String review, Long isGoodCount) {
+    public ComboItemInfo(Long comboItemId, Category category, String name, String review, long isGoodCount, long replyCount) {
         this.comboItemId = comboItemId;
         this.category = category;
         this.review = review;
         this.name = name;
         this.isGoodCount = isGoodCount;
+        this.replyCount = replyCount;
     }
 }

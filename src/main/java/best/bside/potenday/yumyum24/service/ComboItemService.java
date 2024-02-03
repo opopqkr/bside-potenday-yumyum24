@@ -12,6 +12,7 @@ import best.bside.potenday.yumyum24.payload.responses.RecommendComboItem;
 import best.bside.potenday.yumyum24.payload.responses.ReplyInfo;
 import best.bside.potenday.yumyum24.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,7 @@ public class ComboItemService {
     public List<ComboItemInfo> getRandomComboItem() {
         final List<ComboItemInfo> randomList = comboItemRepository.findOrderByRandom();
 
-        if (randomList != null && !randomList.isEmpty()) {
+        if (ObjectUtils.isNotEmpty(randomList)) {
             for (ComboItemInfo comboItemInfo : randomList) {
                 comboItemInfo.setProducts(comboItemProductRepository.findProductByComboItemId(comboItemInfo.getComboItemId()));
             }
@@ -70,7 +71,7 @@ public class ComboItemService {
                 = comboItemRepository.findByCategoryOrderBySortByPageInfo(category, sortBy, pageInfo);
 
         final List<ComboItemInfo> list = comboItemInfoPage.getResult();
-        if (list != null && !list.isEmpty()) {
+        if (ObjectUtils.isNotEmpty(list)) {
             for (ComboItemInfo comboItemInfo : list) {
                 comboItemInfo.setProducts(comboItemProductRepository.findProductByComboItemId(comboItemInfo.getComboItemId()));
             }
@@ -93,7 +94,6 @@ public class ComboItemService {
         }
     }
 
-    // FIXME 등록시 콤보 아이템 댓글 갯수 올리기,
     @Transactional
     public void writeReply(String email, Long comboItemId, ReplyRequest replyRequest) {
         final User user = userRepository.findByEmail(email);
@@ -101,6 +101,7 @@ public class ComboItemService {
         Reply reply = replyRequest.toEntity(comboItemId, user.getUserId());
         reply.completeIssueReply();
         replyRepository.save(reply);
+        comboItemRepository.updateComboItemReplyCount(comboItemId, 1L);
     }
 
     @Transactional
@@ -114,10 +115,11 @@ public class ComboItemService {
     }
 
     @Transactional
-    public void deleteReply(Long replyId) {
+    public void deleteReply(Long ComboItemId, Long replyId) {
         Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new NoResultException("해당 댓글은 삭제되었습니다."));
 
         replyRepository.delete(reply);
+        comboItemRepository.updateComboItemReplyCount(ComboItemId, -1L);
     }
 }
