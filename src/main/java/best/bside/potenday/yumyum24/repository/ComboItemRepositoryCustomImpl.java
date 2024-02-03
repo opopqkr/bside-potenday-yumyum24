@@ -121,7 +121,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
     }
 
     @Override
-    public void updateComboItemGoodCount(Long comboItemId, Long value) {
+    public void updateComboItemBookmarkCount(Long comboItemId, Long value) {
         QComboItem c = QComboItem.comboItem;
 
         update(c)
