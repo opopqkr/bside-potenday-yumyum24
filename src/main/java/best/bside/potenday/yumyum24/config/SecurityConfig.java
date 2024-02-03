@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -67,7 +68,11 @@ public class SecurityConfig {
                 .authorizeRequests(authorize ->
                         authorize
                                 .antMatchers(ENDPOINTS_WHITELIST).permitAll()
-                                .mvcMatchers("/user/profile").authenticated())
+                                .mvcMatchers("/user/login").permitAll()
+                                .mvcMatchers(HttpMethod.GET, "/combo-item/*").permitAll()
+                                .mvcMatchers(HttpMethod.GET, "/combo-item/*/reply").permitAll()
+                                .mvcMatchers(HttpMethod.GET, "/product/*").permitAll()
+                                .anyRequest().authenticated())
                 .exceptionHandling()
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 .accessDeniedHandler(new JwtAccessDeniedHandler())
