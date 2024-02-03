@@ -75,8 +75,9 @@ public class ComboItemController {
     @PostMapping("/{id}/reply")
     public ResponseEntity<Response<Void>> writeReply(@PathVariable("id") Long id,
                                                      @RequestBody ReplyRequest replyRequest) {
-        final String userName = userService.getUserName();
-        comboItemService.writeReply(id, userName, replyRequest);
+        // FIXME 여기서 부터 user id 로 수정 필요.
+        String email = userService.validationToken();
+        comboItemService.writeReply(id, email, replyRequest);
         return ResponseEntity.ok(new Response<>(HttpStatus.CREATED));
     }
 }

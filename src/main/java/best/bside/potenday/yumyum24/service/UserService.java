@@ -50,17 +50,7 @@ public class UserService {
                 .build();
     }
 
-    public String getUserName() {
-        String email = validationToken();
-
-        String userName = userRepository.findNameByEmail(email);
-        if (StringUtils.isBlank(userName))
-            throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. 관리자에게 문의해 주세요.");
-
-        return userName;
-    }
-
-    private String validationToken() {
+    public String validationToken() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         if (StringUtils.isBlank(email))

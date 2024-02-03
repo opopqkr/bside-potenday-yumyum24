@@ -28,12 +28,11 @@ public class ComboItem {
     @Convert(converter = CategoryConverter.class)
     private Category category;
 
-    private Long isGoodCount = 0L;
+    private Long bookmarkCount = 0L;
 
     private LocalDateTime createdAt;
 
     public void completeCreateComboItem() {
         this.createdAt = LocalDateTime.now();
     }
-
 }

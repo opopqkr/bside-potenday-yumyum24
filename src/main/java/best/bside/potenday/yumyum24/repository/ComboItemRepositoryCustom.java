@@ -15,8 +15,8 @@ public interface ComboItemRepositoryCustom {
 
     Page<ComboItemInfo> findByCategoryOrderBySortByPageInfo(String category, String sortBy, PageInfo pageInfo);
 
-    ComboItemInfo findComboItemInfoByComboItemId(Long comboItemId);
+    Page<ComboItemInfo> findByUserBookmarkedComboItemPageInfo(List<Long> comboItemIds, String category, PageInfo pageInfo);
 
-    void updateComboItemGoodCount(Long comboItemId, int value);
+    void updateComboItemBookmarkCount(Long comboItemId, Long value);
 
 }

@@ -14,4 +14,5 @@ public class BookmarkId implements Serializable {
     private Long userId;
 
     private Long comboItemId;
+
 }

@@ -81,8 +81,8 @@ public class ComboItemService {
         return replyRepository.findByPageInfo(id, pageInfo);
     }
 
-    public void writeReply(Long comboItemId, String userName, ReplyRequest replyRequest) {
-        Reply reply = replyRequest.toEntity(comboItemId, userName);
+    public void writeReply(Long comboItemId, String email, ReplyRequest replyRequest) {
+        Reply reply = replyRequest.toEntity(comboItemId, email);
         reply.completeIssueReply();
         replyRepository.save(reply);
     }

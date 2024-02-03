@@ -24,7 +24,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
                 c.category,
                 c.name,
                 c.review,
-                c.isGoodCount))
+                c.bookmarkCount))
                 .from(c)
                 .where(c.category.eq(category))
                 .orderBy(Expressions
@@ -42,7 +42,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
                 c.category,
                 c.name,
                 c.review,
-                c.isGoodCount))
+                c.bookmarkCount))
                 .from(c)
                 .orderBy(Expressions
                         .numberTemplate(Double.class, "function('rand')").asc())
@@ -53,7 +53,6 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
     @Override
     public Page<ComboItemInfo> findByCategoryOrderBySortByPageInfo(String category, String sortBy, PageInfo pageInfo) {
         QComboItem c = QComboItem.comboItem;
-
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
         if (StringUtils.equals("F", category)) {
@@ -64,7 +63,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
 
         OrderSpecifier<?> orderBy = c.comboItemId.desc();
         if (StringUtils.equals(sortBy, "TOP")) {
-            orderBy = c.isGoodCount.desc();
+            orderBy = c.bookmarkCount.desc();
         } else if (StringUtils.equals(sortBy, "NEW")) {
             orderBy = c.createdAt.desc();
         } else if (StringUtils.equals(sortBy, "REPLY")) {
@@ -76,7 +75,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
                 c.category,
                 c.name,
                 c.review,
-                c.isGoodCount))
+                c.bookmarkCount))
                 .from(c)
                 .where(booleanBuilder)
                 .offset(pageInfo.getOffset())
@@ -89,26 +88,44 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
     }
 
     @Override
-    public ComboItemInfo findComboItemInfoByComboItemId(Long comboItemId) {
+    public Page<ComboItemInfo> findByUserBookmarkedComboItemPageInfo(List<Long> comboItemIds, String category, PageInfo pageInfo) {
         QComboItem c = QComboItem.comboItem;
-        return select(Projections.constructor(ComboItemInfo.class,
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        if (StringUtils.equals("F", category)) {
+            booleanBuilder.and(c.category.eq(Category.FOOD));
+        } else if (StringUtils.equals("D", category)) {
+            booleanBuilder.and(c.category.eq(Category.DRINK));
+        }
+
+        final List<ComboItemInfo> list = select(Projections.constructor(ComboItemInfo.class,
                 c.comboItemId,
                 c.category,
                 c.name,
                 c.review,
-                c.isGoodCount))
+                c.bookmarkCount))
                 .from(c)
-                .where(c.comboItemId.eq(comboItemId))
-                .fetchOne();
+                .where(c.comboItemId.in(comboItemIds)
+                        .and(booleanBuilder))
+                .offset(pageInfo.getOffset())
+                .limit(pageInfo.getSize())
+                .fetch();
+
+        pageInfo.setTotalItemCount(select(c.count())
+                .from(c)
+                .where(c.comboItemId.in(comboItemIds)
+                        .and(booleanBuilder))
+                .fetchOne());
+        return new Page<>(list, pageInfo);
     }
 
     @Override
-    public void updateComboItemGoodCount(Long comboItemId, int value) {
+    public void updateComboItemGoodCount(Long comboItemId, Long value) {
         QComboItem c = QComboItem.comboItem;
 
-        // 조회수 변경
         update(c)
-                .set(c.isGoodCount, c.isGoodCount.add(value))
+                .set(c.bookmarkCount, c.bookmarkCount.add(value))
                 .where(c.comboItemId.eq(comboItemId))
                 .execute();
     }

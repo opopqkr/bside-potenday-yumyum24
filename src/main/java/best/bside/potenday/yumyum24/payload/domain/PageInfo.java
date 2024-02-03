@@ -29,6 +29,7 @@ public class PageInfo {
     }
 
     public int getTotalPage() {
+        totalItemCount = totalItemCount == null ? 0 : totalItemCount;
         return Math.max(1, (int) Math.ceil((totalItemCount * 1.0) / (size * 1.0)));
     }
 }
