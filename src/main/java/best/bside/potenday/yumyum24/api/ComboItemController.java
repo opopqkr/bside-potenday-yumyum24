@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/combo-item")
@@ -84,8 +85,9 @@ public class ComboItemController {
     @Operation(summary = "꿀 조합 댓글 수정", description = "꿀 조합 댓글 수정 API.")
     @PutMapping("/{replyId}")
     public ResponseEntity<Response<Void>> updateReply(@PathVariable("replyId") Long replyId,
-                                                      @RequestBody String content) {
-        comboItemService.updateReply(replyId, content);
+                                                      @RequestBody Map<String,String> content) {
+
+        comboItemService.updateReply(replyId, content.get("content"));
         return ResponseEntity.ok(new Response<>(HttpStatus.OK));
     }
 
