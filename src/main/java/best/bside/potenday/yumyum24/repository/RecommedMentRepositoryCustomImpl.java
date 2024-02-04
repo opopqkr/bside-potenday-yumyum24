@@ -7,14 +7,16 @@ import java.time.format.DateTimeFormatter;
 
 public class RecommedMentRepositoryCustomImpl extends BaseRepository implements RecommedMentRepositoryCustom {
 
+    private final static DateTimeFormatter LOCAL_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
+
     @Override
     public String findRecommedMentByNow(LocalTime now) {
         QRecommendMent m = QRecommendMent.recommendMent;
 
         return select(m.ment)
                 .from(m)
-                .where(m.startTime.goe(LocalTime.parse(DateTimeFormatter.ofPattern("HH:mm").format(now)))
-                        .and(m.endTime.loe(LocalTime.parse(DateTimeFormatter.ofPattern("HH:mm").format(now)))))
+                .where(m.startTime.loe(LocalTime.parse(LOCAL_TIME_FORMATTER.format(now)))
+                        .and(m.endTime.goe(LocalTime.parse(LOCAL_TIME_FORMATTER.format(now)))))
                 .fetchOne();
     }
 }
