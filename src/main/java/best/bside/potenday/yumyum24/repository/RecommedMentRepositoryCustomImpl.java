@@ -13,9 +13,6 @@ public class RecommedMentRepositoryCustomImpl extends BaseRepository implements 
     public String findRecommedMentByNow(LocalTime now) {
         QRecommendMent m = QRecommendMent.recommendMent;
 
-        System.out.println("TEST START TIME ::::::::::::::::: " + m.startTime);
-        System.out.println("TEST END TIME ::::::::::::::::: " + m.endTime);
-
         return select(m.ment)
                 .from(m)
                 .where(m.startTime.loe(LocalTime.parse(LOCAL_TIME_FORMATTER.format(now)))
