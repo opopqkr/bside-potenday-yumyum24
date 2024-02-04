@@ -6,13 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Repository
 @Transactional(readOnly = true)
-public interface BookmarkRepository extends JpaRepository<Bookmark, BookmarkId> {
-
-    List<Long> findComboItemIdByUserIdOrderBySavedAtDesc(Long userId);
+public interface BookmarkRepository extends JpaRepository<Bookmark, BookmarkId>, BookmarkRepositoryCustom {
 
     Bookmark findByUserIdAndComboItemId(Long userId, Long comboItemId);
 
