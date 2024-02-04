@@ -69,8 +69,8 @@ public class SecurityConfig {
                         authorize
                                 .antMatchers(ENDPOINTS_WHITELIST).permitAll()
                                 .mvcMatchers("/user/login").permitAll()
-                                .mvcMatchers(HttpMethod.GET, "/combo-item/*").permitAll()
                                 .mvcMatchers(HttpMethod.GET, "/combo-item/*/reply").permitAll()
+                                .mvcMatchers(HttpMethod.GET, "/combo-item/*").permitAll()
                                 .mvcMatchers(HttpMethod.GET, "/product/*").permitAll()
                                 .anyRequest().authenticated())
                 .exceptionHandling()

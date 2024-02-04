@@ -105,11 +105,11 @@ public class ComboItemService {
     }
 
     @Transactional
-    public void updateReply(Long replyId, String content) {
+    public void updateReply(Long replyId, ReplyRequest replyRequest) {
         Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new NoResultException("해당 댓글은 삭제되었습니다."));
 
-        reply.setContent(content);
+        reply.setContent(replyRequest.getContent());
         reply.updateReply();
         replyRepository.save(reply);
     }

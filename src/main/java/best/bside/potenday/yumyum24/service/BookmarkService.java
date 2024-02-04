@@ -52,7 +52,7 @@ public class BookmarkService {
         }
     }
 
-    public Boolean isComboItemBookmark(String email, Long comboItemId){
+    public boolean isComboItemBookmark(String email, Long comboItemId) {
         final User user = userRepository.findByEmail(email);
         Bookmark bookmark
                 = bookmarkRepository.findByUserIdAndComboItemId(user.getUserId(), comboItemId);
