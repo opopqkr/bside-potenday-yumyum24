@@ -1,52 +1,44 @@
+# 🍧 Taste Lab : Back-End Repository
 
-# 🍧 yumyum24 - 백엔드 레파지토리
+- 편의점, 프렌차이즈 음식점 등 **음식 커스텀 꿀조합을 추천해주는 서비스**
 
 ![image](https://github.com/jjunhyeon/algorithm/assets/37209763/2e4bc5b3-bd7d-42c8-b1cc-9c0e21fd3ac2)
 
-
-편의점, 프렌차이즈 음식점 등 **음식 커스텀 꿀조합을 추천해주는 서비스**입니다.
-
 ---
 
+## 💻 Development Environment
+
+| Composition                  | Use                  |
+|:-----------------------------|:---------------------|
+| **Project/Issue Management** | `Notion`             |
+| **Knowledge Base**           | `Notion`             |
+| **Source Management**        | `GitHub`             |
+| **IDE / Editor Tools**       | `IntelliJ` `dbeaver` |
+| **Deployment Management**    | `GitHub Action`      |
 
 ## ⚙️ Tech Stack
 
-- 언어 
-    - Java
-
-- 프레임워크   
-    - Spring Boot
-    - JPA(Java Persistence API)
-    - QueryDSL
-
-- 빌드 및 의존성 관리
-    - Maven
-
-- 데이터베이스
-    - MariaDB
-
-- 컨테이너화
-    - Docker
-
-- 클라우드 플랫폼
-    - NCP(Naver Cloud Platform)
-
-- 버전 관리
-    - Git
-
-- CI / CD
-    - GitHub Actions
+| Composition  | Use                                                          |
+|:-------------|:-------------------------------------------------------------|
+| **API**      | `Java11` `SpringBoot`<br/> `SpringSecurity` `JPA` `QueryDSL` |
+| **DataBase** | `mariaDB`                                                    |
+| **Build**    | `Maven`                                                      |
+| **Infra**    | `Nginx` `NCP` `Docker`                                       |                                       |
 
 ---
 
 ## 🔗 CI / CD 구성도
+
 - 추가 예정
 
 ---
 
 ## 📌 주요 기능
+
 - 상품 API (CRUD)
+
 ---
 
 ## 📎 Link
+
 - [Front Repository](https://github.com/SeoYeonii/yumyum24)
