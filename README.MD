@@ -8,22 +8,22 @@
 
 ## 💻 Development Environment
 
-| Composition                  | Use                  |
-|:-----------------------------|:---------------------|
-| **Project/Issue Management** | `Notion`             |
-| **Knowledge Base**           | `Notion`             |
-| **Source Management**        | `GitHub`             |
-| **IDE / Editor Tools**       | `IntelliJ` `dbeaver` |
-| **Deployment Management**    | `GitHub Action`      |
+| Composition              | Use                  |
+|:-------------------------|:---------------------|
+| Project/Issue Management | `Notion`             |
+| Knowledge Base           | `Notion`             |
+| Source Management        | `GitHub`             |
+| IDE / Editor Tools       | `IntelliJ` `dbeaver` |
+| Deployment Management    | `GitHub Action`      |
 
 ## ⚙️ Tech Stack
 
-| Composition  | Use                                                          |
-|:-------------|:-------------------------------------------------------------|
-| **API**      | `Java11` `SpringBoot`<br/> `SpringSecurity` `JPA` `QueryDSL` |
-| **DataBase** | `mariaDB`                                                    |
-| **Build**    | `Maven`                                                      |
-| **Infra**    | `Nginx` `NCP` `Docker`                                       |                                       |
+| Composition | Use                                                          |
+|:------------|:-------------------------------------------------------------|
+| API         | `Java11` `SpringBoot`<br/> `SpringSecurity` `JPA` `QueryDSL` |
+| DataBase    | `mariaDB`                                                    |
+| Build       | `Maven`                                                      |
+| Infra       | `Nginx` `NCP` `Docker`                                       |                                       |
 
 ---
 
