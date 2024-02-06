@@ -49,12 +49,12 @@ public class ComboItemService {
     }
 
     public RecommendComboItem getRecommendComboItem() {
-        ComboItemInfo foodComboItem = comboItemRepository.findByCategory(Category.FOOD);
+        final ComboItemInfo foodComboItem = comboItemRepository.findByCategory(Category.FOOD);
         if (foodComboItem != null) {
             foodComboItem.setProducts(comboItemProductRepository.findProductByComboItemId(foodComboItem.getComboItemId()));
         }
 
-        ComboItemInfo drinkComboItem = comboItemRepository.findByCategory(Category.DRINK);
+        final ComboItemInfo drinkComboItem = comboItemRepository.findByCategory(Category.DRINK);
         if (drinkComboItem != null) {
             drinkComboItem.setProducts(comboItemProductRepository.findProductByComboItemId(drinkComboItem.getComboItemId()));
         }
@@ -85,13 +85,10 @@ public class ComboItemService {
     }
 
     public Page<ReplyInfo> getComboItemReply(String email, Long comboItemId, PageInfo pageInfo) {
-        User user = userRepository.findByEmail(email);
+        final User user = userRepository.findByEmail(email);
 
-        if (user == null) {
-            return replyRepository.findByPageInfo(comboItemId, pageInfo);
-        } else {
-            return replyRepository.findByPageInfo(user.getUserId(), comboItemId, pageInfo);
-        }
+        return user == null ? replyRepository.findByPageInfo(comboItemId, pageInfo) :
+                replyRepository.findByPageInfo(user.getUserId(), comboItemId, pageInfo);
     }
 
     @Transactional
@@ -116,7 +113,7 @@ public class ComboItemService {
 
     @Transactional
     public void deleteReply(Long ComboItemId, Long replyId) {
-        Reply reply = replyRepository.findById(replyId)
+        final Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new NoResultException("해당 댓글은 삭제되었습니다."));
 
         replyRepository.delete(reply);

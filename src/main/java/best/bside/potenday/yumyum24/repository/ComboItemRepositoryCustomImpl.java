@@ -6,6 +6,7 @@ import best.bside.potenday.yumyum24.payload.domain.Page;
 import best.bside.potenday.yumyum24.payload.domain.PageInfo;
 import best.bside.potenday.yumyum24.payload.responses.ComboItemInfo;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -28,8 +29,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
                 c.replyCount))
                 .from(c)
                 .where(c.category.eq(category))
-                .orderBy(Expressions
-                        .numberTemplate(Double.class, "function('rand')").asc())
+                .orderBy(orderByRandom())
                 .limit(1)
                 .fetchOne();
     }
@@ -46,8 +46,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
                 c.bookmarkCount,
                 c.replyCount))
                 .from(c)
-                .orderBy(Expressions
-                        .numberTemplate(Double.class, "function('rand')").asc())
+                .orderBy(orderByRandom())
                 .limit(5)
                 .fetch();
     }
@@ -55,15 +54,6 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
     @Override
     public Page<ComboItemInfo> findByCategoryOrderBySortByPageInfo(String category, String sortBy, PageInfo pageInfo) {
         QComboItem c = QComboItem.comboItem;
-
-        OrderSpecifier<?> orderBy = c.comboItemId.desc();
-        if (StringUtils.equals(sortBy, "TOP")) {
-            orderBy = c.bookmarkCount.desc();
-        } else if (StringUtils.equals(sortBy, "NEW")) {
-            orderBy = c.createdAt.desc();
-        } else if (StringUtils.equals(sortBy, "REPLY")) {
-            orderBy = c.replyCount.desc();
-        }
 
         final List<ComboItemInfo> list = select(Projections.constructor(ComboItemInfo.class,
                 c.comboItemId,
@@ -76,7 +66,7 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
                 .where(conditionByCategory(c, category))
                 .offset(pageInfo.getOffset())
                 .limit(pageInfo.getSize())
-                .orderBy(orderBy)
+                .orderBy(orderBy(c, sortBy))
                 .fetch();
 
         Long totalItemCount = select(c.count()).from(c).where(conditionByCategory(c, category)).fetchOne();
@@ -134,14 +124,34 @@ public class ComboItemRepositoryCustomImpl extends BaseRepository implements Com
     private BooleanBuilder conditionByCategory(QComboItem c, String category) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        if (StringUtils.equals("F", category)) {
+        if (StringUtils.equals(Category.FOOD.getCode(), category)) {
             booleanBuilder.and(c.category.eq(Category.FOOD));
-        } else if (StringUtils.equals("D", category)) {
+        } else if (StringUtils.equals(Category.DRINK.getCode(), category)) {
             booleanBuilder.and(c.category.eq(Category.DRINK));
         } else {
             booleanBuilder = null;
         }
 
         return booleanBuilder;
+    }
+
+    private OrderSpecifier<?> orderByRandom() {
+        return Expressions.numberTemplate(Double.class, "function('rand')").asc();
+    }
+
+    private OrderSpecifier<?> orderBy(QComboItem c, String sortBy) {
+        if (StringUtils.isBlank(sortBy))
+            return new OrderSpecifier<>(Order.DESC, c.comboItemId);
+
+        switch (sortBy) {
+            case "TOP":
+                return new OrderSpecifier<>(Order.DESC, c.bookmarkCount);
+            case "NEW":
+                return new OrderSpecifier<>(Order.DESC, c.createdAt);
+            case "REPLY":
+                return new OrderSpecifier<>(Order.DESC, c.replyCount);
+        }
+
+        return null;
     }
 }
